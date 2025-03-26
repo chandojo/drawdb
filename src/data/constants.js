@@ -114,6 +114,7 @@ export const DB = {
   SQLITE: "sqlite",
   MARIADB: "mariadb",
   GENERIC: "generic",
+  JSON: "json, non-relational"
 };
 
 export const IMPORT_FROM = {

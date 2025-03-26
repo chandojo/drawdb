@@ -1747,6 +1747,58 @@ export const mssqlTypes = new Proxy(mssqlTypesBase, {
   get: (target, prop) => (prop in target ? target[prop] : false),
 });
 
+const jsonTypesBase = {
+   NUMBER: {
+    type: "NUMBER",
+    checkDefault: (field) => {
+      return intRegex.test(field.default);
+    },
+    hasCheck: true,
+    isSized: false,
+    hasPrecision: false,
+    canIncrement: true,
+  },
+  STRING: {
+    type: "STRING",
+    checkDefault: (field) => true,
+    hasCheck: false,
+    isSized: false,
+    hasPrecision: false,
+    hasQuotes: true,
+  },
+  OBJECT: {
+    type: "OBJECT",
+    checkDefault: (field) => true,
+    hasCheck: false,
+    isSized: false,
+    hasPrecision: false,
+  },
+  ARRAY: {
+    type: "ARRAY",
+    checkDefault: (field) => true,
+    hasCheck: false,
+    isSized: false,
+    hasPrecision: false,
+  },
+  BOOLEAN: {
+    type: "BOOLEAN",
+    checkDefault: (field) => {
+      return (
+        field.default.toLowerCase() === "false" ||
+        field.default.toLowerCase() === "true"
+      );
+    },
+    hasCheck: false,
+    isSized: false,
+    hasPrecision: false,
+  },
+};
+
+export const jsonTypes = new Proxy(jsonTypesBase, {
+  get: (target, prop) => (prop in target ? target[prop] : false),
+});
+
+
 const dbToTypesBase = {
   [DB.GENERIC]: defaultTypes,
   [DB.MYSQL]: mysqlTypes,
@@ -1754,6 +1806,7 @@ const dbToTypesBase = {
   [DB.SQLITE]: sqliteTypes,
   [DB.MSSQL]: mssqlTypes,
   [DB.MARIADB]: mysqlTypes,
+  [DB.JSON]: jsonTypes,
 };
 
 export const dbToTypes = new Proxy(dbToTypesBase, {

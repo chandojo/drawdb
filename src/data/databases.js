@@ -49,6 +49,12 @@ export const databases = new Proxy(
       description: i18n.t("generic_description"),
       hasTypes: true,
     },
+    [DB.JSON]: {
+      name: "JSON, non-relational",
+      label: DB.JSON,
+      image: null,
+      hasTypes: true,
+    }
   },
   { get: (target, prop) => (prop in target ? target[prop] : {}) },
 );
